@@ -14,3 +14,6 @@ up:
 
 down: 
 	docker-compose down
+
+migrate:
+	docker-compose run api bash bin/migrate.sh $(name)
