@@ -4,3 +4,7 @@ export interface SignUpDto {
   firstName: string;
   lastName: string;
 }
+
+export interface ValidatedUserId {
+  uid: number;
+}
