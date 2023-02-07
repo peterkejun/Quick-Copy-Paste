@@ -1,7 +1,7 @@
 import { forwardRef, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { AuthService } from 'src/auth/auth.service';
-import { makeHttpException } from 'src/utils/http-response';
+import { AuthService } from '../auth/auth.service';
+import { makeHttpException } from '../utils/http-response';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import * as bcrypt from 'bcrypt';
@@ -23,6 +23,14 @@ export class UserService {
       console.log(e);
       return null;
     }
+  }
+
+  async assertUserExists(uid: number): Promise<User> {
+    const user = await this.findOneById(uid);
+    if (!user) {
+      throw makeHttpException(HttpStatus.UNAUTHORIZED);
+    }
+    return user;
   }
 
   findAll(): Promise<User[]> {

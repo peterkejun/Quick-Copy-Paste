@@ -6,6 +6,11 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { UserModule } from './user/user.module';
+import { SnippetController } from './snippet/snippet.controller';
+import { SnippetService } from './snippet/snippet.service';
+import { SnippetModule } from './snippet/snippet.module';
+import { SnippetTagModule } from './snippet-tag/snippet-tag.module';
+import { SnippetTagService } from './snippet-tag/snippet-tag.service';
 
 @Module({
   imports: [
@@ -21,14 +26,18 @@ import { UserModule } from './user/user.module';
     }),
     AuthModule,
     UserModule,
+    SnippetModule,
+    SnippetTagModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, SnippetController],
   providers: [
     AppService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    SnippetService,
+    SnippetTagService,
   ],
 })
 export class AppModule {}

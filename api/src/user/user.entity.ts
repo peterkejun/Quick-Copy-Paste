@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Snippet } from '../snippet/snippet.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -15,5 +17,10 @@ export class User {
   email: string;
 
   @Column()
+  @Exclude()
   password: string;
+
+  @OneToMany(() => Snippet, (snippet) => snippet.user)
+  @Exclude()
+  snippets: Snippet[];
 }

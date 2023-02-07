@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 import { compare as bcryptCompare } from 'bcrypt';
 import { getJwtSecret } from './auth.secret';
 import { ValidatedUserId } from './auth.types';
@@ -25,7 +25,7 @@ export class AuthService {
   }
 
   async login(user: any) {
-    const payload = { email: user.email, sub: user.id };
+    const payload = { uid: user.uid };
     return {
       access_token: this.jwtService.sign(payload, {
         secret: getJwtSecret(),
