@@ -41,7 +41,7 @@ services:
       - shared
     depends_on:
       - mysql
-    command: npm run start:dev
+    command: npm run prebuild && npm run start:dev
 
   mysql:
     image: mysql:8-debian

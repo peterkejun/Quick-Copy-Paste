@@ -11,6 +11,9 @@ import { SnippetService } from './snippet/snippet.service';
 import { SnippetModule } from './snippet/snippet.module';
 import { SnippetTagModule } from './snippet-tag/snippet-tag.module';
 import { SnippetTagService } from './snippet-tag/snippet-tag.service';
+import { CollectionModule } from './collection/collection.module';
+import { CollectionController } from './collection/collection.controller';
+import { CollectionService } from './collection/collection.service';
 
 @Module({
   imports: [
@@ -28,8 +31,9 @@ import { SnippetTagService } from './snippet-tag/snippet-tag.service';
     UserModule,
     SnippetModule,
     SnippetTagModule,
+    CollectionModule,
   ],
-  controllers: [AppController, SnippetController],
+  controllers: [AppController, SnippetController, CollectionController],
   providers: [
     AppService,
     {
@@ -38,6 +42,7 @@ import { SnippetTagService } from './snippet-tag/snippet-tag.service';
     },
     SnippetService,
     SnippetTagService,
+    CollectionService,
   ],
 })
 export class AppModule {}

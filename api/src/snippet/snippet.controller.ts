@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { SnippetTagService } from 'src/snippet-tag/snippet-tag.service';
-import { CreateSnippetTagDto } from 'src/snippet-tag/snippet-tag.types';
-import { User_ } from 'src/user/user.decorator';
-import { User } from 'src/user/user.entity';
+import { SnippetTagService } from '../snippet-tag/snippet-tag.service';
+import { CreateSnippetTagDto } from '../snippet-tag/snippet-tag.types';
+import { User_ } from '../user/user.decorator';
+import { User } from '../user/user.entity';
 import { SnippetService } from './snippet.service';
 import { CreateSnippetDto, UpdateSnippetDto } from './snippet.types';
 

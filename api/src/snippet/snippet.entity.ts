@@ -1,5 +1,4 @@
 import { SnippetTag } from '../snippet-tag/snippet-tag.entity';
-import { User } from '../user/user.entity';
 import {
   Entity,
   Column,
@@ -7,7 +6,7 @@ import {
   OneToMany,
   ManyToOne,
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
+import { Collection } from '../collection/collection.entity';
 
 @Entity()
 export class Snippet {
@@ -23,7 +22,6 @@ export class Snippet {
   @OneToMany(() => SnippetTag, (tag) => tag.snippet)
   tags: SnippetTag[];
 
-  @ManyToOne(() => User, (user) => user.snippets)
-  @Exclude()
-  user: User;
+  @ManyToOne(() => Collection, (collection) => collection.snippets)
+  collection: Collection;
 }

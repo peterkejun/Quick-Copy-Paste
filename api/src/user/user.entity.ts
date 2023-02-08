@@ -1,6 +1,6 @@
-import { Snippet } from '../snippet/snippet.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Collection } from '../collection/collection.entity';
 
 @Entity()
 export class User {
@@ -20,7 +20,7 @@ export class User {
   @Exclude()
   password: string;
 
-  @OneToMany(() => Snippet, (snippet) => snippet.user)
+  @OneToMany(() => Collection, (collection) => collection.user)
   @Exclude()
-  snippets: Snippet[];
+  collections: Collection[];
 }

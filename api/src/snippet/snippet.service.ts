@@ -5,9 +5,11 @@ import { User } from '../user/user.entity';
 import { Repository } from 'typeorm';
 import { Snippet } from './snippet.entity';
 import { CreateSnippetDto, UpdateSnippetDto } from './snippet.types';
-import { makeHttpException } from 'src/utils/http-response';
-import { betterRepository, BetterRepository } from 'src/utils/BetterRepository';
-import { isNullish } from 'src/utils/nullish';
+import { makeHttpException } from '../utils/http-response';
+import { betterRepository, BetterRepository } from '../utils/BetterRepository';
+import { isNullish } from '../utils/nullish';
+import { Collection } from '../collection/collection.entity';
+import { CollectionService } from '../collection/collection.service';
 
 @Injectable()
 export class SnippetService {
@@ -16,13 +18,14 @@ export class SnippetService {
     @InjectRepository(Snippet)
     private __snippet_repo__: Repository<Snippet>,
     private readonly snippetTagService: SnippetTagService,
+    private readonly collectionService: CollectionService,
   ) {
     this.snippetRepository = betterRepository(__snippet_repo__);
   }
 
   async findAll(user: User): Promise<Snippet[]> {
     return await this.snippetRepository.find({
-      where: { user },
+      where: { collection: { user } },
       relations: { tags: true },
     });
   }
@@ -30,7 +33,7 @@ export class SnippetService {
   async findOne(user: User, id: number): Promise<Snippet> {
     const snippet = await this.snippetRepository.findOneOrFailWithException(
       {
-        where: { user, id },
+        where: { collection: { user }, id },
         relations: { tags: true },
       },
       makeHttpException(HttpStatus.NOT_FOUND, 'SNIPPET:NOT_FOUND'),
@@ -42,10 +45,14 @@ export class SnippetService {
     user: User,
     createSnippetDto: CreateSnippetDto,
   ): Promise<Snippet> {
+    const collection = await this.collectionService.findOneById(
+      user,
+      createSnippetDto.collectionId,
+    );
     let snippet = this.snippetRepository.create();
     snippet.label = createSnippetDto.label;
     snippet.content = createSnippetDto.content;
-    snippet.user = user;
+    snippet.collection = collection;
     snippet = await this.snippetRepository.save(snippet);
     const tags = await Promise.all(
       createSnippetDto.tags.map((tagDto) =>
@@ -54,7 +61,7 @@ export class SnippetService {
     );
     snippet.tags = tags;
     snippet = await this.snippetRepository.save(snippet);
-    delete snippet.user;
+    delete snippet.collection;
     return snippet;
   }
 
@@ -64,7 +71,10 @@ export class SnippetService {
     updateSnippetDto: UpdateSnippetDto,
   ): Promise<Snippet> {
     const snippet = await this.snippetRepository.findOneOrFailWithException(
-      { where: { user, id }, relations: { tags: true, user: false } },
+      {
+        where: { collection: { user }, id },
+        relations: { tags: true, collection: false },
+      },
       makeHttpException(HttpStatus.NOT_FOUND, 'SNIPPET:NOT_FOUND'),
     );
     if (
@@ -83,7 +93,7 @@ export class SnippetService {
   async remove(user: User, id: number): Promise<void> {
     const snippet = await this.snippetRepository.findOneOrFailWithException(
       {
-        where: { user, id },
+        where: { collection: { user }, id },
       },
       makeHttpException(HttpStatus.NOT_FOUND, 'SNIPPET:NOT_FOUND'),
     );

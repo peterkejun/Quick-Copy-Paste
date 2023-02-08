@@ -6,6 +6,7 @@ export interface UpdateSnippetDto {
 }
 
 export interface CreateSnippetDto {
+  collectionId: number;
   label: string;
   content: string;
   tags: CreateSnippetTagDto[];

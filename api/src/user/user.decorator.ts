@@ -3,7 +3,7 @@ import {
   ExecutionContext,
   HttpStatus,
 } from '@nestjs/common';
-import { makeHttpException } from 'src/utils/http-response';
+import { makeHttpException } from '../utils/http-response';
 
 export const User_ = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {

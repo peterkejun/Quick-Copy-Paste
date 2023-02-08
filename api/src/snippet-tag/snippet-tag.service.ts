@@ -4,8 +4,8 @@ import { Snippet } from '../snippet/snippet.entity';
 import { Repository } from 'typeorm';
 import { SnippetTag } from './snippet-tag.entity';
 import { CreateSnippetTagDto } from './snippet-tag.types';
-import { betterRepository, BetterRepository } from 'src/utils/BetterRepository';
-import { makeHttpException } from 'src/utils/http-response';
+import { betterRepository, BetterRepository } from '../utils/BetterRepository';
+import { makeHttpException } from '../utils/http-response';
 
 @Injectable()
 export class SnippetTagService {

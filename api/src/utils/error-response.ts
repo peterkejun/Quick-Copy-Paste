@@ -4,6 +4,9 @@ const errors = [
   'USER:INVALID_NAME',
   'SNIPPET:NOT_FOUND',
   'SNIPPET-TAG:NOT_FOUND',
+  'COLLECTION:NOT_FOUND',
+  'COLLECTION:INVALID_NAME',
+  'COLLECTION:NAME_EXISTS',
 ] as const;
 
 export type HTTP_ERROR_MSG = (typeof errors)[number];
